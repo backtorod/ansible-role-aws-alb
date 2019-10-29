@@ -16,7 +16,7 @@
         chdir: "{{ terraform_context }}"
       changed_when: false
 
-    # - debug: var=provisioning_init
+    - debug: var=provisioning_init
 
     # - name: plan provisioning
     #   shell: |
