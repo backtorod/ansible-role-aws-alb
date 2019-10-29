@@ -8,12 +8,13 @@
         dest: "{{ terraform_context }}/{{ item }}.tf"
       with_items: "{{ templates }}"
 
-    # - name: initialize terraform
-    #   shell: |
-    #     terraform init {{ terraform_extra_args }}
-    #   register: provisioning_init
-    #   args:
-    #     chdir: "{{ role_context }}/files"
+    - name: initialize terraform
+      shell: |
+        terraform init {{ terraform_extra_args }}
+      register: provisioning_init
+      args:
+        chdir: "{{ role_context }}/files"
+      changed_when: false
 
     # - debug: var=provisioning_init
 
