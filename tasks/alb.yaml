@@ -5,7 +5,7 @@
     - name: template terraform variables
       template:
         src: "{{ role_context }}/files/variables.tf.j2"
-        dst: "{{ role_context }}/files/variables.tf"
+        dest: "{{ role_context }}/files/variables.tf"
 
     - name: initialize terraform
       shell: |
