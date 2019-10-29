@@ -1,0 +1,10 @@
+---
+
+- block: 
+
+    - name: initialize terraform
+      shell: terraform init
+
+    - name: validate provisioning
+      shell: terraform plan
+      register: provisioning_plan
