@@ -1,0 +1,14 @@
+terraform {
+  required_version = "~> {{ terraform.version }}"
+  required_providers {
+    aws = "~> {{ providers.aws.version }}"
+  }
+}
+
+provider "aws" {
+  version = "~> {{ providers.aws.version }}"
+  region  = "{{ providers.aws.region }}"
+  profile = "{{ providers.aws.profile }}"
+}
+
+
