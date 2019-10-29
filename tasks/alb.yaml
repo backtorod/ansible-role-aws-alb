@@ -4,7 +4,7 @@
 
     - name: initialize terraform
       shell: |
-        terraform init
+        terraform init {{ terraform.default_args }}
       args:
         chdir: "{{ role_context }}/files"
       register: init
@@ -13,7 +13,9 @@
 
     - name: validate provisioning
       shell: |
-        terraform plan -var aws_profile={{ aws_profile | default('default') }}
+        terraform plan \
+          {{ terraform.default_args }} \
+          -var aws_profile={{ aws_profile | default('default') }}
       register: provisioning_plan
       args:
         chdir: "{{ role_context }}/files"
@@ -24,6 +26,7 @@
     - name: apply state
       shell: |
         terraform apply \
+          {{ terraform.default_args }} \
           -auto-approve \
           -var aws_profile={{ aws_profile | default('default') }}
 

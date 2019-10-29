@@ -1,2 +1,5 @@
 ---
 # defaults file for ansible-role-aws-alb
+
+terraform:
+  default_args: -no-color
