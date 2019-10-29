@@ -1,13 +1,8 @@
-provider "aws" {
-  version = "~> 2.0"
-  region  = "${var.region}"
-  profile = "${var.aws_profile}"
-}
 resource "aws_eip" "eip_nlb" {
-  vpc     = true
-  tags    = {
-    Name  = "test-network-lb-eip"
-    Env   = "test"
+  vpc = true
+  tags = {
+    Name = "test-network-lb-eip"
+    Env  = "test"
   }
 }
 // resource "aws_lb" "load_balancer" {
