@@ -1,0 +1,8 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+
+terraform {
+  required_version = "~> {{ terraform_version }}"
+  required_providers {
+    aws = "~> {{ provider_aws_version }}"
+  }
+}
