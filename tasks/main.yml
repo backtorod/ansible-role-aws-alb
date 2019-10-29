@@ -4,3 +4,8 @@
 - include_tasks: alb.yaml
   vars:
     terraform_context: "roles/{{ role_name }}/terraform"
+  tags:
+    - create
+    - destroy
+    - update
+    - template

@@ -6,7 +6,7 @@
     dest: "{{ terraform_context }}/{{ item }}.tf"
   with_items: "{{ templates }}"
   tags:
-    - template_only
+    - template
 
 - name: initialize terraform
   shell: |
