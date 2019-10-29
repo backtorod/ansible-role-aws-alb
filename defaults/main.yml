@@ -1,6 +1,22 @@
 ---
 # defaults file for ansible-role-aws-alb
 
+alb_name: "{{ survey_alb_name }}"
+alb_subnets:
+  - subnet1
+  - subnet2
+alb_security_groups:
+  - group1
+alb_internal: true
+alb_idle_timeout: 60
+alb_tags:
+  - name: "Name"
+    value: "{{ survey_alb_name }}"
+  - name: "Description"
+    value: "This is a description"
+alb_access_logs_bucket: cloud44-alb-logs
+alb_access_logs_prefix: ELB-logs
+
 aws_region: "{{ survey_aws_region | default('us-east-1') }}"
 
 vpc_id: "{{ survey_vpc_id | default('vpc-324f234a') }}"
