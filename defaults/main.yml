@@ -1,7 +1,7 @@
 ---
 # defaults file for ansible-role-aws-alb
 
-alb_name: "{{ survey_alb_name }}"
+alb_name: "{{ survey_alb_name }} | default('cloud44-terraform-alb')"
 alb_subnets:
   - subnet1
   - subnet2
@@ -11,7 +11,7 @@ alb_internal: true
 alb_idle_timeout: 60
 alb_tags:
   - name: "Name"
-    value: "{{ survey_alb_name }}"
+    value: "{{ alb_name }}"
   - name: "Description"
     value: "This is a description"
 alb_access_logs_bucket: cloud44-alb-logs
