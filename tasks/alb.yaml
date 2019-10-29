@@ -29,5 +29,7 @@
           {{ terraform.default_args }} \
           -auto-approve \
           -var aws_profile={{ aws_profile | default('default') }}
+      args:
+        chdir: "{{ role_context }}/files"
 
 
