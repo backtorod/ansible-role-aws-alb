@@ -10,6 +10,9 @@ templates:
 terraform:
   version: 0.12
   args: -no-color
+  state:
+    bucket: terraform-cloud44-states
+    key: develop/tests
 
 providers:
   aws:

@@ -2,8 +2,8 @@
 
 terraform {
   backend "s3" {
-    bucket = "{{ aws_tfstate_bucket }}"
-    key    = "{{ aws_tfstate_bucket_path }}"
+    bucket = "{{ terraform.state.bucket }}"
+    key    = "{{ terraform.state.key }}"
     region = "{{ aws.region }}"
   }
 }
