@@ -1,12 +1,21 @@
 ---
 # defaults file for ansible-role-aws-alb
 
+#
+# common
+#
+aws_region: "{{ survey_aws_region | default('us-east-1') }}"
+vpc_id: "{{ survey_vpc_id | default('vpc-324f234a') }}"
+
+#
+# resources
+#
 alb_name: "{{ survey_alb_name | default('cloud44-terraform-alb') }}"
 alb_subnets:
-  - subnet1
-  - subnet2
+  - subnet-3f449e10
+  - subnet-a1eee2c5
 alb_security_groups:
-  - group1
+  - sg-006c0c38a9b7c0ddd
 alb_internal: true
 alb_idle_timeout: 60
 alb_tags:
@@ -17,10 +26,9 @@ alb_tags:
 alb_access_logs_bucket: cloud44-alb-logs
 alb_access_logs_prefix: ELB-logs
 
-aws_region: "{{ survey_aws_region | default('us-east-1') }}"
-
-vpc_id: "{{ survey_vpc_id | default('vpc-324f234a') }}"
-
+#
+# terraform
+#
 provider_aws_version: 2.33.0
 
 templates:
