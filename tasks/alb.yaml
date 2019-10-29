@@ -37,7 +37,7 @@
 
 - debug: var=terraform_syntax
 
-- name: Terraform plan is synced.
+- name: sync state from s3 bucket
   terraform:
     project_path: "{{ terraform_context }}"
     state: "present"
