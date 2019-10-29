@@ -11,12 +11,12 @@
     - name: initialize terraform
       shell: |
         terraform init {{ terraform_extra_args }}
-      register: provisioning_init
       args:
         chdir: "{{ terraform_context }}"
       changed_when: false
+      register: terraform_init
 
-    - debug: var=provisioning_init
+    - debug: var=terraform_init
 
     - name: check hsl format
       shell: |
@@ -24,31 +24,39 @@
           {{ terraform_extra_args }} \
           -check \
           -diff
-      register: provisioning_check_format
       args:
         chdir: "{{ terraform_context }}"
+      register: terraform_format
 
-    - debug: var=provisioning_check_format
+    - debug: var=terraform_format
 
     - name: check hsl syntax
       shell: |
         terraform validate \
           {{ terraform_extra_args }}
-      register: provisioning_check_syntax
       args:
         chdir: "{{ terraform_context }}"
+      register: terraform_syntax
 
-    - debug: var=provisioning_check_syntax
+    - debug: var=terraform_syntax
+
+    - name: Terraform plan is synced.
+      terraform:
+        project_path: "{{ terraform_context }}"
+        state: "present"
+      register: terraform_plan_result
+
+    - devbug: var=terraform_plan_result
 
     - name: plan provisioning
       shell: |
         terraform plan \
           {{ terraform_extra_args }}
-      register: provisioning_plan
+      register: terraform_plan
       args:
         chdir: "{{ terraform_context }}"
 
-    - debug: var=provisioning_plan
+    - debug: var=terraform_plan
 
     # - name: apply state
     #   shell: |
