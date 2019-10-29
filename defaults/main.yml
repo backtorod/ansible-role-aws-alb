@@ -13,7 +13,6 @@ templates:
   - output
   - provider
   - terraform
-  - variables
 
 terraform_version: 0.12
 terraform_extra_args: -no-color
