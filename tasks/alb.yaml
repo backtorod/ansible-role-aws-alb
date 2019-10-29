@@ -46,7 +46,7 @@
         state: "present"
       register: terraform_plan_result
 
-    - devbug: var=terraform_plan_result
+    - debug: var=terraform_plan_result
 
     - name: plan provisioning
       shell: |
