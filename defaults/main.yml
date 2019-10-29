@@ -3,6 +3,8 @@
 
 aws_region: "{{ survey_aws_region | default('us-east-1') }}"
 
+vpc_id: "{{ survey_vpc_id | default('vpc-324f234a') }}"
+
 provider_aws_version: 2.33.0
 
 templates:

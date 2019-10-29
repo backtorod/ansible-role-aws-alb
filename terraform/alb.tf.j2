@@ -3,7 +3,7 @@
 resource "aws_security_group" "allow_tls" {
   name        = "allow_tls"
   description = "Allow TLS inbound traffic"
-  vpc_id      = "${aws_vpc.main.id}"
+  vpc_id      = "{{ vpc_id }}"
 
   ingress {
     # TLS (change to whatever ports you need)
@@ -20,6 +20,5 @@ resource "aws_security_group" "allow_tls" {
     to_port         = 0
     protocol        = "-1"
     cidr_blocks     = ["0.0.0.0/0"]
-    prefix_list_ids = ["pl-12c4e678"]
   }
 }
