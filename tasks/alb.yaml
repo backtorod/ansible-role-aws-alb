@@ -10,7 +10,7 @@
 
     # - name: initialize terraform
     #   shell: |
-    #     terraform init {{ terraform.args }}
+    #     terraform init {{ terraform_extra_args }}
     #   register: provisioning_init
     #   args:
     #     chdir: "{{ role_context }}/files"
@@ -20,7 +20,7 @@
     # - name: plan provisioning
     #   shell: |
     #     terraform plan \
-    #       {{ terraform.args }}
+    #       {{ terraform_extra_args }}
     #   register: provisioning_plan
     #   args:
     #     chdir: "{{ role_context }}/files"
@@ -30,7 +30,7 @@
     # - name: check hsl format
     #   shell: |
     #     terraform fmt \
-    #       {{ terraform.args }} \
+    #       {{ terraform_extra_args }} \
     #       -check \
     #       -diff
     #   register: provisioning_check_format
@@ -42,7 +42,7 @@
     # - name: check hsl syntax
     #   shell: |
     #     terraform validate \
-    #       {{ terraform.args }}
+    #       {{ terraform_extra_args }}
     #   register: provisioning_check_syntax
     #   args:
     #     chdir: "{{ role_context }}/files"
@@ -52,7 +52,7 @@
     # - name: apply state
     #   shell: |
     #     terraform apply \
-    #       {{ terraform.args }} \
+    #       {{ terraform_extra_args }} \
     #       -auto-approve
     #   register: provisioning_apply
     #   args:

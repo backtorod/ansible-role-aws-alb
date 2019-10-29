@@ -1,24 +1,17 @@
 ---
 # defaults file for ansible-role-aws-alb
 
+aws_region: "{{ survey_aws_region | default('us-east-1') }}"
+
+provider_aws_version: 2.33.0
+
 templates:
   - alb
   - backends
   - outputs
   - variables
 
-terraform:
-  version: 0.12
-  args: -no-color
-  state:
-    bucket: terraform-cloud44-states
-    key: develop/tests
-
-terraform_state_key: 88888
-
-providers:
-  aws:
-    version: 2.33.0
-
-aws:
-  region: "{{ survey_aws_region | default('us-east-1') }}"
+terraform_version: 0.12
+terraform_extra_args: -no-color
+terraform_state_bucket: terraform-cloud44-states
+terraform_state_key: develop/tests
