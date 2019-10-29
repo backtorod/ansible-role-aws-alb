@@ -1,72 +1,70 @@
 ---
 
-- block:
+- name: template terraform
+  template:
+    src: "{{ terraform_context }}/{{ item }}.tf.j2"
+    dest: "{{ terraform_context }}/{{ item }}.tf"
+  with_items: "{{ templates }}"
 
-    - name: template terraform
-      template:
-        src: "{{ terraform_context }}/{{ item }}.tf.j2"
-        dest: "{{ terraform_context }}/{{ item }}.tf"
-      with_items: "{{ templates }}"
+- name: initialize terraform
+  shell: |
+    terraform init {{ terraform_extra_args }}
+  args:
+    chdir: "{{ terraform_context }}"
+  # changed_when: false
+  register: terraform_init
 
-    - name: initialize terraform
-      shell: |
-        terraform init {{ terraform_extra_args }}
-      args:
-        chdir: "{{ terraform_context }}"
-      changed_when: false
-      register: terraform_init
+- debug: var=terraform_init
 
-    - debug: var=terraform_init
+- name: check hsl format
+  shell: |
+    terraform fmt \
+      {{ terraform_extra_args }} \
+      -check \
+      -diff
+  args:
+    chdir: "{{ terraform_context }}"
+  register: terraform_format
 
-    - name: check hsl format
-      shell: |
-        terraform fmt \
-          {{ terraform_extra_args }} \
-          -check \
-          -diff
-      args:
-        chdir: "{{ terraform_context }}"
-      register: terraform_format
+- debug: var=terraform_format
 
-    - debug: var=terraform_format
+- name: check hsl syntax
+  shell: |
+    terraform validate \
+      {{ terraform_extra_args }}
+  args:
+    chdir: "{{ terraform_context }}"
+  register: terraform_syntax
 
-    - name: check hsl syntax
-      shell: |
-        terraform validate \
-          {{ terraform_extra_args }}
-      args:
-        chdir: "{{ terraform_context }}"
-      register: terraform_syntax
+- debug: var=terraform_syntax
 
-    - debug: var=terraform_syntax
+- name: Terraform plan is synced.
+  terraform:
+    project_path: "{{ terraform_context }}"
+    state: "present"
+  register: terraform_plan_result
 
-    - name: Terraform plan is synced.
-      terraform:
-        project_path: "{{ terraform_context }}"
-        state: "present"
-      register: terraform_plan_result
+- debug: var=terraform_plan_result
 
-    - debug: var=terraform_plan_result
+- name: plan provisioning
+  shell: |
+    terraform plan \
+      {{ terraform_extra_args }}
+  register: terraform_plan
+  args:
+    chdir: "{{ terraform_context }}"
 
-    - name: plan provisioning
-      shell: |
-        terraform plan \
-          {{ terraform_extra_args }}
-      register: terraform_plan
-      args:
-        chdir: "{{ terraform_context }}"
+- debug: var=terraform_plan
 
-    - debug: var=terraform_plan
+- name: apply state
+  shell: |
+    terraform apply \
+      {{ terraform_extra_args }} \
+      -auto-approve
+  args:
+    chdir: "{{ terraform_context }}"
+  register: terraform_apply
 
-    # - name: apply state
-    #   shell: |
-    #     terraform apply \
-    #       {{ terraform_extra_args }} \
-    #       -auto-approve
-    #   register: provisioning_apply
-    #   args:
-    #     chdir: "{{ role_context }}/files"
-
-    # - debug: var=provisioning_apply
+- debug: var=terraform_apply
 
 
