@@ -11,7 +11,7 @@
 
     - debug: var=provisioning_init
 
-    - name: validate provisioning
+    - name: plan provisioning
       shell: |
         terraform plan \
           {{ terraform.default_args }} \
@@ -24,7 +24,10 @@
 
     - name: check hsl format
       shell: |
-        terraform fmt -check=true -diff=true
+        terraform fmt \
+          {{ terraform.default_args }} \
+          -check \
+          -diff
       register: provisioning_check_format
       args:
         chdir: "{{ role_context }}/files"
@@ -33,7 +36,8 @@
 
     - name: check hsl syntax
       shell: |
-        terraform validate -check-variables=false
+        terraform validate \
+          {{ terraform.default_args }}
       register: provisioning_check_syntax
       args:
         chdir: "{{ role_context }}/files"
