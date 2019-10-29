@@ -3,7 +3,7 @@
 terraform {
   backend "s3" {
     bucket = "{{ terraform.state.bucket }}"
-    key    = "{{ terraform.state.key }}"
+    key    = "{{ terraform_state_key }}"
     region = "{{ aws.region }}"
   }
 }

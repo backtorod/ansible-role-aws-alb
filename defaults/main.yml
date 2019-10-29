@@ -14,6 +14,8 @@ terraform:
     bucket: terraform-cloud44-states
     key: develop/tests
 
+terraform_state_key: 88888
+
 providers:
   aws:
     version: 2.33.0
