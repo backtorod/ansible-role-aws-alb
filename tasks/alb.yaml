@@ -1,20 +1,20 @@
 ---
 
-- block: 
+- block:
 
     - name: initialize terraform
       shell: terraform init
       args:
-        chdir: roles/alb/files
+        chdir: "{{ role_context }}/files"
       register: init
-  
+
     - debug: var=init
-      
+
     - name: validate provisioning
       shell: terraform plan
       register: provisioning_plan
       args:
-        chdir: roles/alb/files
+        chdir: "{{ role_context }}/files"
       register: plan
 
     - debug: var=plan
