@@ -13,7 +13,7 @@
         terraform init {{ terraform_extra_args }}
       register: provisioning_init
       args:
-        chdir: "{{ role_context }}/files"
+        chdir: "{{ terraform_context }}"
       changed_when: false
 
     # - debug: var=provisioning_init
