@@ -28,27 +28,27 @@
 
     - debug: var=provisioning_plan
 
-    # - name: check hsl format
-    #   shell: |
-    #     terraform fmt \
-    #       {{ terraform_extra_args }} \
-    #       -check \
-    #       -diff
-    #   register: provisioning_check_format
-    #   args:
-    #     chdir: "{{ role_context }}/files"
+    - name: check hsl format
+      shell: |
+        terraform fmt \
+          {{ terraform_extra_args }} \
+          -check \
+          -diff
+      register: provisioning_check_format
+      args:
+        chdir: "{{ terraform_context }}"
 
-    # - debug: var=provisioning_check_format
+    - debug: var=provisioning_check_format
 
-    # - name: check hsl syntax
-    #   shell: |
-    #     terraform validate \
-    #       {{ terraform_extra_args }}
-    #   register: provisioning_check_syntax
-    #   args:
-    #     chdir: "{{ role_context }}/files"
+    - name: check hsl syntax
+      shell: |
+        terraform validate \
+          {{ terraform_extra_args }}
+      register: provisioning_check_syntax
+      args:
+        chdir: "{{ terraform_context }}"
 
-    # - debug: var=provisioning_check_syntax
+    - debug: var=provisioning_check_syntax
 
     # - name: apply state
     #   shell: |
