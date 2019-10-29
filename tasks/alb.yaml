@@ -3,7 +3,8 @@
 - block:
 
     - name: initialize terraform
-      shell: terraform init
+      shell: |
+        terraform init
       args:
         chdir: "{{ role_context }}/files"
       register: init
@@ -11,11 +12,19 @@
     - debug: var=init
 
     - name: validate provisioning
-      shell: terraform plan -var aws_profile={{ aws_profile | default('default') }}
+      shell: |
+        terraform plan -var aws_profile={{ aws_profile | default('default') }}
       register: provisioning_plan
       args:
         chdir: "{{ role_context }}/files"
       register: plan
 
     - debug: var=plan
+
+    - name: apply state
+      shell: |
+        terraform apply \
+          -auto-approve \
+          -var aws_profile={{ aws_profile | default('default') }}
+
 
