@@ -2,4 +2,5 @@
 # tasks file for ansible-role-aws-alb
 
 - include_tasks: alb.yaml
-  
+  vars:
+    role_context: "terraform/{{ role_name }}"

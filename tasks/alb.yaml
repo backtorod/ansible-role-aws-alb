@@ -2,61 +2,62 @@
 
 - block:
 
-    - name: template terraform variables
+    - name: template terraform
       template:
-        src: "{{ role_context }}/files/variables.tf.j2"
-        dest: "{{ role_context }}/files/variables.tf"
+        src: "{{ role_context }}/{{ item }}.tf.j2"
+        dest: "{{ role_context }}/{{ item }}.tf"
+      with_items: "{{ terraform.templates }}"
 
-    - name: initialize terraform
-      shell: |
-        terraform init {{ terraform.args }}
-      register: provisioning_init
-      args:
-        chdir: "{{ role_context }}/files"
+    # - name: initialize terraform
+    #   shell: |
+    #     terraform init {{ terraform.args }}
+    #   register: provisioning_init
+    #   args:
+    #     chdir: "{{ role_context }}/files"
 
-    - debug: var=provisioning_init
+    # - debug: var=provisioning_init
 
-    - name: plan provisioning
-      shell: |
-        terraform plan \
-          {{ terraform.args }}
-      register: provisioning_plan
-      args:
-        chdir: "{{ role_context }}/files"
+    # - name: plan provisioning
+    #   shell: |
+    #     terraform plan \
+    #       {{ terraform.args }}
+    #   register: provisioning_plan
+    #   args:
+    #     chdir: "{{ role_context }}/files"
 
-    - debug: var=provisioning_plan
+    # - debug: var=provisioning_plan
 
-    - name: check hsl format
-      shell: |
-        terraform fmt \
-          {{ terraform.args }} \
-          -check \
-          -diff
-      register: provisioning_check_format
-      args:
-        chdir: "{{ role_context }}/files"
+    # - name: check hsl format
+    #   shell: |
+    #     terraform fmt \
+    #       {{ terraform.args }} \
+    #       -check \
+    #       -diff
+    #   register: provisioning_check_format
+    #   args:
+    #     chdir: "{{ role_context }}/files"
 
-    - debug: var=provisioning_check_format
+    # - debug: var=provisioning_check_format
 
-    - name: check hsl syntax
-      shell: |
-        terraform validate \
-          {{ terraform.args }}
-      register: provisioning_check_syntax
-      args:
-        chdir: "{{ role_context }}/files"
+    # - name: check hsl syntax
+    #   shell: |
+    #     terraform validate \
+    #       {{ terraform.args }}
+    #   register: provisioning_check_syntax
+    #   args:
+    #     chdir: "{{ role_context }}/files"
 
-    - debug: var=provisioning_check_syntax
+    # - debug: var=provisioning_check_syntax
 
-    - name: apply state
-      shell: |
-        terraform apply \
-          {{ terraform.args }} \
-          -auto-approve
-      register: provisioning_apply
-      args:
-        chdir: "{{ role_context }}/files"
+    # - name: apply state
+    #   shell: |
+    #     terraform apply \
+    #       {{ terraform.args }} \
+    #       -auto-approve
+    #   register: provisioning_apply
+    #   args:
+    #     chdir: "{{ role_context }}/files"
 
-    - debug: var=provisioning_apply
+    # - debug: var=provisioning_apply
 
 

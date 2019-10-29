@@ -2,6 +2,11 @@
 # defaults file for ansible-role-aws-alb
 
 terraform:
+  templates:
+    - alb
+    - backends
+    - outputs
+    - variables
   version: 0.12
   args: -no-color
 
