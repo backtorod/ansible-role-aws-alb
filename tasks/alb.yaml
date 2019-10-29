@@ -6,10 +6,16 @@
       shell: terraform init
       args:
         chdir: roles/alb/files
+      register: init
+  
+    - debug: var=init
       
     - name: validate provisioning
       shell: terraform plan
       register: provisioning_plan
       args:
         chdir: roles/alb/files
+      register: plan
+
+    - debug: var=plan
 
