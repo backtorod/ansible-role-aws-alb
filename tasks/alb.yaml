@@ -2,9 +2,14 @@
 
 - block:
 
+    - name: template terraform variables
+      template:
+        src: "{{ role_context }}/files/variables.tf.j2"
+        dst: "{{ role_context }}/files/variables.tf"
+
     - name: initialize terraform
       shell: |
-        terraform init {{ terraform.default_args }}
+        terraform init {{ terraform.args }}
       register: provisioning_init
       args:
         chdir: "{{ role_context }}/files"
@@ -14,8 +19,7 @@
     - name: plan provisioning
       shell: |
         terraform plan \
-          {{ terraform.default_args }} \
-          -var aws_profile={{ aws_profile | default('default') }}
+          {{ terraform.args }}
       register: provisioning_plan
       args:
         chdir: "{{ role_context }}/files"
@@ -25,7 +29,7 @@
     - name: check hsl format
       shell: |
         terraform fmt \
-          {{ terraform.default_args }} \
+          {{ terraform.args }} \
           -check \
           -diff
       register: provisioning_check_format
@@ -37,7 +41,7 @@
     - name: check hsl syntax
       shell: |
         terraform validate \
-          {{ terraform.default_args }}
+          {{ terraform.args }}
       register: provisioning_check_syntax
       args:
         chdir: "{{ role_context }}/files"
@@ -47,9 +51,8 @@
     - name: apply state
       shell: |
         terraform apply \
-          {{ terraform.default_args }} \
-          -auto-approve \
-          -var aws_profile={{ aws_profile | default('default') }}
+          {{ terraform.args }} \
+          -auto-approve
       register: provisioning_apply
       args:
         chdir: "{{ role_context }}/files"

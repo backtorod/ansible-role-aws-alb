@@ -2,4 +2,11 @@
 # defaults file for ansible-role-aws-alb
 
 terraform:
-  default_args: -no-color
+  version: 0.12
+  args: -no-color
+
+providers:
+  aws:
+    version: 2.33.0
+    region: "{{ survey_aws_region | default('default') }}"
+    profile: "{{ survey_aws_profile | default('us-east-1') }}"
