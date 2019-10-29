@@ -5,8 +5,8 @@ resource "aws_alb" "alb" {
   internal        = "{{ alb_internal }}"
   idle_timeout    = "{{ alb_idle_timeout }}"
   tags {
-    {% for tag in alb_tags %}
-      {{ tag.key }} = {{ tag.value }}
+    {% for key, value in alb_tags.values() %}
+      {{ key.name }} = {{ key.value }}
     {% endfor %}
   }
   access_logs {
