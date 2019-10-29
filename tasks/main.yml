@@ -3,4 +3,4 @@
 
 - include_tasks: alb.yaml
   vars:
-    terraform_context: "{{ roles_context }}/terraform/{{ role_name }}"
+    terraform_context: "{{ roles_context }}/terraform"
