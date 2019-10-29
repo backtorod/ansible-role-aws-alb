@@ -4,8 +4,8 @@
 
     - name: template terraform
       template:
-        src: "{{ role_context }}/{{ item }}.tf.j2"
-        dest: "{{ role_context }}/{{ item }}.tf"
+        src: "{{ terraform_context }}/{{ item }}.tf.j2"
+        dest: "{{ terraform_context }}/{{ item }}.tf"
       with_items: "{{ terraform.templates }}"
 
     # - name: initialize terraform
