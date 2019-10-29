@@ -18,15 +18,15 @@
 
     - debug: var=provisioning_init
 
-    # - name: plan provisioning
-    #   shell: |
-    #     terraform plan \
-    #       {{ terraform_extra_args }}
-    #   register: provisioning_plan
-    #   args:
-    #     chdir: "{{ role_context }}/files"
+    - name: plan provisioning
+      shell: |
+        terraform plan \
+          {{ terraform_extra_args }}
+      register: provisioning_plan
+      args:
+        chdir: "{{ terraform_context }}"
 
-    # - debug: var=provisioning_plan
+    - debug: var=provisioning_plan
 
     # - name: check hsl format
     #   shell: |
