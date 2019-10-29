@@ -11,6 +11,8 @@ templates:
   - alb
   - backends
   - output
+  - provider
+  - terraform
   - variables
 
 terraform_version: 0.12
