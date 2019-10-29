@@ -9,6 +9,5 @@ terraform {
 
 provider "aws" {
   version = "~> {{ providers.aws.version }}"
-  region  = "{{ providers.aws.region }}"
-  profile = "{{ providers.aws.profile }}"
+  region  = "{{ aws.region }}"
 }

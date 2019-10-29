@@ -1,14 +1,9 @@
 #jinja2: lstrip_blocks: "True", trim_blocks: "True"
 
 terraform {
-  required_version = "~> {{ terraform.version }}"
-  required_providers {
-    aws = "~> {{ providers.aws.version }}"
+  backend "s3" {
+    bucket = "{{ aws_tfstate_bucket }}"
+    key    = "{{ aws_tfstate_bucket_path }}"
+    region = "{{ aws.region }}"
   }
-}
-
-provider "aws" {
-  version = "~> {{ providers.aws.version }}"
-  region  = "{{ providers.aws.region }}"
-  profile = "{{ providers.aws.profile }}"
 }
