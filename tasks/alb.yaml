@@ -15,29 +15,24 @@
 
 - debug: var=terraform_init
 
-- name: pulling state (if any) from s3 bucket
-  terraform:
-    project_path: "{{ terraform_context }}"
-    state: "present"
-  register: terraform_plan_result
+# - name: pulling state (if any) from s3 bucket
+#   terraform:
+#     project_path: "{{ terraform_context }}"
+#     state: "present"
+#   register: terraform_plan_result
 
-- debug: var=terraform_plan_result
+- name: validate current ec2 instances (if any)
+  shell: |
+    terraform state pull > {{ terraform_output_file }}
+  args:
+    chdir: "{{ terraform_context }}"
 
 - block:
-
-    - name: validate current ec2 instances (if any)
-      shell: |
-        terraform output -json
-      args:
-        chdir: "{{ terraform_context }}"
-      register: terraform_output
-
-    - debug: var=terraform_output
 
     - name: fetch current ec2 instances (if any)
       shell: |
         cat {{ terraform_output_file }} | \
-          jq -r '.values | .root_module | .resources[] | select(.type == "aws_instance") | .name'
+          jq -r '.resources[] | select(.type == "aws_instance") | .name'
       args:
         chdir: "{{ terraform_context }}"
       register: current_instances
