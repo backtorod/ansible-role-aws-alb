@@ -25,7 +25,7 @@
   template:
     src: "{{ terraform_context }}/{{ item }}.tf.j2"
     dest: "{{ terraform_context }}/{{ item }}.tf"
-  with_items: "{{ templates }}"
+  with_items: "{{ templates.resources }}"
 
 - name: check hsl format
   shell: |
