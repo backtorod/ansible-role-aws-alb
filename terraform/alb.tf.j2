@@ -36,17 +36,16 @@ resource "aws_alb_target_group" "alb_target_group" {
   }
 }
 
-{#
 resource "aws_alb_listener" "alb_listener" {
   load_balancer_arn = "${aws_alb.alb.arn}"
-  port              = "${var.alb_listener_port}"
-  protocol          = "${var.alb_listener_protocol}"
+  port              = {{ alb_listener_port }}
+  protocol          = "{{ alb_listener_protocol }}"
 
   default_action {
-    target_group_arn = "${aws_alb_target_group.alb_target.arn}"
+    target_group_arn = "${aws_alb_target_group.alb_target_group.arn}"
     type             = "forward"
   }
-} #}
+}
 
 {# resource "aws_alb_listener_rule" "listener_rule" {
   depends_on   = ["aws_alb_target_group.alb_target_group"]

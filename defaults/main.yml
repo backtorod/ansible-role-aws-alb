@@ -34,9 +34,8 @@ alb_target_group_health_check_interval: 10
 alb_target_group_health_check_path: /
 alb_target_group_health_check_port: 80
 
-
 alb_listener_port: 80
-alb_listener_protocol: http
+alb_listener_protocol: HTTP
 
 #
 # terraform
