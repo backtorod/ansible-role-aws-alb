@@ -22,6 +22,9 @@
         terraform output -json > {{ terraform_output_file }}
       args:
         chdir: "{{ terraform_context }}"
+      register: terraform_output
+
+    - debug: var=terraform_output
 
     - name: fetch current ec2 instances (if any)
       shell: |
