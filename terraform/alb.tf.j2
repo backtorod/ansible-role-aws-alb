@@ -26,12 +26,14 @@ resource "aws_security_group" "alb_security_group" {
 resource "aws_alb" "alb" {
   name            = "{{ alb_name }}"
   subnets         = [{% for subnet in alb_subnets %}"{{ subnet }}"{% if not loop.last %}, {% endif %}{% endfor %}]
-  security_groups = [{% for security_group in alb_security_groups %}"{{ security_group }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+  security_groups = ["${aws_security_group.alb_security_group.id}"]
   internal        = {{ alb_internal }}
   idle_timeout    = {{ alb_idle_timeout }}
+
   tags = {
     Name = "{{ alb_name }}"
   }
+
   access_logs {
     bucket = "{{ alb_access_logs_bucket }}"
     prefix = "{{ alb_access_logs_prefix }}"
@@ -43,14 +45,17 @@ resource "aws_alb_target_group" "alb_target_group" {
   port     = "{{ alb_target_group_port }}"
   protocol = "{{ alb_target_group_protocol }}"
   vpc_id   = "{{ vpc_id }}"
+
   tags = {
     Name = "{{ alb_name }}-target-group"
   }
+
   stickiness {
     type            = "{{ alb_target_group_enable_stickiness_type }}"
     cookie_duration = {{ alb_target_group_enable_stickiness_cookie_duration }}
     enabled         = {{ alb_target_group_enable_stickiness }}
   }
+
   health_check {
     healthy_threshold   = {{ alb_target_group_health_check_healthy_threshold }}
     unhealthy_threshold = {{ alb_target_group_health_check_unhealthy_threshold }}
