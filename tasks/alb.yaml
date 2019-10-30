@@ -1,10 +1,10 @@
 ---
 
-- name: template terraform
-  template:
-    src: "{{ terraform_context }}/{{ item }}.tf.j2"
-    dest: "{{ terraform_context }}/{{ item }}.tf"
-  with_items: "{{ templates }}"
+# - name: template terraform
+#   template:
+#     src: "{{ terraform_context }}/{{ item }}.tf.j2"
+#     dest: "{{ terraform_context }}/{{ item }}.tf"
+#   with_items: "{{ templates }}"
 
 - name: initialize terraform
   shell: |
