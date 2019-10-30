@@ -15,6 +15,14 @@
 
 - debug: var=terraform_init
 
+- name: pulling state (if any) from s3 bucket
+  terraform:
+    project_path: "{{ terraform_context }}"
+    state: "present"
+  register: terraform_plan_result
+
+- debug: var=terraform_plan_result
+
 - block:
 
     - name: validate current ec2 instances (if any)
@@ -70,14 +78,6 @@
   register: terraform_syntax
 
 - debug: var=terraform_syntax
-
-- name: pulling state (if any) from s3 bucket
-  terraform:
-    project_path: "{{ terraform_context }}"
-    state: "present"
-  register: terraform_plan_result
-
-- debug: var=terraform_plan_result
 
 - name: plan provisioning
   shell: |
