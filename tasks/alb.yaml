@@ -20,6 +20,7 @@
     - name:
       shell:
         terraform import aws_instance.{{ item }} {{ item }} \
+          -allow-missing-config \
           {{ terraform_extra_args }}
       with_items: "{{ alb_target_group_attachment_instances }}"
       args:
