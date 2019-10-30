@@ -1,5 +1,11 @@
 ---
 
+- name: template terraform backend definition
+  template:
+    src: "{{ terraform_context }}/{{ item }}.tf.j2"
+    dest: "{{ terraform_context }}/{{ items }}.tf"
+  with_items: "{{ templates.backends }}"
+
 # - name: template terraform
 #   template:
 #     src: "{{ terraform_context }}/{{ item }}.tf.j2"
@@ -14,12 +20,6 @@
   register: terraform_init
 
 - debug: var=terraform_init
-
-# - name: pulling state (if any) from s3 bucket
-#   terraform:
-#     project_path: "{{ terraform_context }}"
-#     state: "present"
-#   register: terraform_plan_result
 
 - name: validate current ec2 instances (if any)
   shell: |
