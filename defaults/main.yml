@@ -73,6 +73,8 @@ provider_aws_version: 2.33.0
 templates:
   backends:
     - backends
+  instances:
+    - instances
   resources:
     - alb
     - output

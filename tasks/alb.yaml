@@ -45,8 +45,6 @@
     - set_fact:
         current_instances_metadata:  "{{ current_instances_metadata_result.stdout_lines }}"
 
-    - debug: var=current_instances
-
   when: should_preserve_instances|default(false)|bool
 
 - name: template terraform resources definition
@@ -57,7 +55,7 @@
 
 - block:
 
-    - name:
+    - name: import current instances into terraform if not already in the state
       shell:
         terraform import aws_instance.{{ item }} {{ item }} \
           {{ terraform_extra_args }}
@@ -66,6 +64,12 @@
         chdir: "{{ terraform_context }}"
       register: terraform_import
       when: item not in current_instances_ids
+
+    - name: template terraform resources definition
+      template:
+        src: "{{ terraform_context }}/{{ item }}.tf.j2"
+        dest: "{{ terraform_context }}/{{ item }}.tf"
+      with_items: "{{ templates.instances }}"
 
   when: should_preserve_instances|default(false)|bool
 
