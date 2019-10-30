@@ -1,3 +1,5 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "False"
+
 resource "aws_alb" "alb" {
   name            = "{{ alb_name }}"
   subnets         = [{% for subnet in alb_subnets %}"{{ subnet }}"{% if not loop.last %},{% endif %}{% endfor %}]
