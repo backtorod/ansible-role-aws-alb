@@ -19,7 +19,7 @@
 
     - name: validate current ec2 instances (if any)
       shell: |
-        terraform output -json > {{ terraform_output_file }}
+        terraform output -json
       args:
         chdir: "{{ terraform_context }}"
       register: terraform_output
