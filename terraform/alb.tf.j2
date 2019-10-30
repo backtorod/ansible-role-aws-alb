@@ -4,7 +4,7 @@ resource "aws_alb" "alb" {
   security_groups = [{% for security_group in alb_security_groups %}"{{ security_group }}"{% if not loop.last %}, {% endif %}{% endfor %}]
   internal        = {{ alb_internal }}
   idle_timeout    = {{ alb_idle_timeout }}
-  tags {
+  tags = {
     Name = "{{ alb_name }}"
   }
   access_logs {
