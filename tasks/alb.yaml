@@ -6,12 +6,6 @@
     dest: "{{ terraform_context }}/{{ item }}.tf"
   with_items: "{{ templates.backends }}"
 
-# - name: template terraform
-#   template:
-#     src: "{{ terraform_context }}/{{ item }}.tf.j2"
-#     dest: "{{ terraform_context }}/{{ item }}.tf"
-#   with_items: "{{ templates }}"
-
 - name: initialize terraform
   shell: |
     terraform init {{ terraform_extra_args }}
@@ -21,11 +15,17 @@
 
 - debug: var=terraform_init
 
-- name: validate current ec2 instances (if any)
+- name: fetch current terraform state (if any)
   shell: |
     terraform state pull > {{ terraform_output_file }}
   args:
     chdir: "{{ terraform_context }}"
+
+- name: template terraform resources definition
+  template:
+    src: "{{ terraform_context }}/{{ item }}.tf.j2"
+    dest: "{{ terraform_context }}/{{ item }}.tf"
+  with_items: "{{ templates.resources }}"
 
 - block:
 
