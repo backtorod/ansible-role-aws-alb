@@ -37,6 +37,10 @@ alb_target_group_health_check_port: 80
 alb_listener_port: 80
 alb_listener_protocol: HTTP
 
+alb_target_group_attachment_instances:
+  - i-0c8269d265041652d
+alb_target_group_attachment_port: 80
+
 #
 # terraform
 #
