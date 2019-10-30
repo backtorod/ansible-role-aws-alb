@@ -48,7 +48,7 @@ resource "aws_security_group" "target_security_group" {
 
 }
 
-{% if should_preserve_instances|default(false)|bool %}
+{# {% if should_preserve_instances|default(false)|bool %}
 {% for instance in alb_target_group_attachment_instances %}
 resource "aws_instance" "{{ instance }}" {
    tags = {
@@ -57,7 +57,7 @@ resource "aws_instance" "{{ instance }}" {
    }
 }
 {% endfor %}
-{% endif %}
+{% endif %} #}
 
 {% if should_preserve_instances|default(false)|bool %}
 {% for instance in alb_target_group_attachment_instances %}
