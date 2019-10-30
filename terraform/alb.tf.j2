@@ -48,8 +48,8 @@ resource "aws_security_group" "target_security_group" {
 
 }
 
-{% if should_preserve_instances|default(false)|bool and current_instances != "" %}
-{% for instance in current_instances %}
+{% if should_preserve_instances|default(false)|bool and current_instances_metadata != "" %}
+{% for instance in current_instances_metadata %}
 resource "aws_instance" "{{ instance.split(',')[0] }}" {
   # ...instance configuration...
 }

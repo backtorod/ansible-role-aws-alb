@@ -23,16 +23,27 @@
 
 - block:
 
-    - name: fetch current ec2 instances (if any)
+    - name: fetch current ec2 instance ids (if any)
+      shell: |
+        cat {{ terraform_output_file }} | \
+          jq -r '.resources[] | select(.type == "aws_instance") | .name'
+      args:
+        chdir: "{{ terraform_context }}"
+      register: current_instances_ids_result
+
+    - set_fact:
+        current_instances_ids:  "{{ current_instances_ids_result.stdout_lines }}"
+
+    - name: fetch current ec2 instance metadata (if any)
       shell: |
         cat {{ terraform_output_file }} | \
           jq -r '.resources[] | select(.type == "aws_instance") | .name + "," + .instances[0].attributes.primary_network_interface_id'
       args:
         chdir: "{{ terraform_context }}"
-      register: current_instances_result
+      register: current_instances_metadata_result
 
     - set_fact:
-        current_instances:  "{{ current_instances_result.stdout_lines }}"
+        current_instances_metadata:  "{{ current_instances_metadata_result.stdout_lines }}"
 
     - debug: var=current_instances
 
@@ -54,8 +65,7 @@
       args:
         chdir: "{{ terraform_context }}"
       register: terraform_import
-
-    - debug: var=terraform_import
+      when: item not in current_instances_ids
 
   when: should_preserve_instances|default(false)|bool
 
