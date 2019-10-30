@@ -21,6 +21,23 @@ alb_idle_timeout: 60
 alb_access_logs_bucket: cloud44-alb-logs
 alb_access_logs_prefix: ELB-logs
 
+alb_target_group_name: "{{ survey_alb_name | default('cloud44-terraform-alb') }}-target-group"
+alb_target_group_port: 80
+alb_target_group_protocol: HTTP
+alb_target_group_enable_stickiness: !!str false
+alb_target_group_enable_stickiness_type: "lb_cookie"
+alb_target_group_enable_stickiness_cookie_duration: 1800
+alb_target_group_health_check_healthy_threshold: 3
+alb_target_group_health_check_unhealthy_threshold: 10
+alb_target_group_health_check_timeout: 5
+alb_target_group_health_check_interval: 10
+alb_target_group_health_check_path: /
+alb_target_group_health_check_port: 80
+
+
+alb_listener_port: 80
+alb_listener_protocol: http
+
 #
 # terraform
 #
