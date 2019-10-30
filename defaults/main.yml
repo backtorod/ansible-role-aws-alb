@@ -18,7 +18,7 @@ alb_security_groups:
   - sg-006c0c38a9b7c0ddd
 alb_internal: true
 alb_idle_timeout: 60
-alb_tags:
+alb_tags: |
   Name        = "{{ alb_name }}"
   Description = "This is a description"
 alb_access_logs_bucket: cloud44-alb-logs
