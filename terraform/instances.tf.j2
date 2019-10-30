@@ -7,7 +7,7 @@ data "aws_instance" "{{ instance }}" {
 data "aws_network_interface" "{{ instance }}" {
   filter {
     name  = "instance-id"
-    value = "{{ instance }}"
+    values = ["{{ instance }}"]
   }
 }
 
