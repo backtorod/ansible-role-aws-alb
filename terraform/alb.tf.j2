@@ -16,6 +16,11 @@ resource "aws_security_group" "alb_security_group" {
     protocol    = "{{ alb_security_group_egress_protocol }}"
     cidr_blocks = [{% for cidr in alb_security_group_egress_cidr_blocks %}"{{ cidr }}"{% if not loop.last %}, {% endif %}{% endfor %}]
   }
+
+  tags = {
+    Name = "{{ alb_security_group_name }}"
+  }
+
 }
 
 resource "aws_alb" "alb" {
