@@ -1,3 +1,24 @@
+resource "aws_security_group" "alb_security_group" {
+  name        = "{{ alb_security_group_name }}"
+  description = "{{ alb_security_group_description }}"
+  vpc_id      = "{{ vpc_id }}"
+
+  ingress {
+    from_port   = {{ alb_security_group_ingress_from_port }}
+    to_port     = {{ alb_security_group_ingress_to_port }}
+    protocol    = "{{ alb_security_group_ingress_protocol }}"
+    cidr_blocks = [{% for cidr in alb_security_group_ingress_cidr_blocks %}"{{ cidr }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+  }
+
+  egress {
+    from_port       = {{ alb_security_group_egress_from_port }}
+    to_port         = {{ alb_security_group_egress_to_port }}
+    protocol        = "{{ alb_security_group_egress_protocol }}"
+    cidr_blocks     = [{% for cidr in alb_security_group_egress_cidr_blocks %}"{{ cidr }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+    prefix_list_ids = ["pl-12c4e678"]
+  }
+}
+
 resource "aws_alb" "alb" {
   name            = "{{ alb_name }}"
   subnets         = [{% for subnet in alb_subnets %}"{{ subnet }}"{% if not loop.last %}, {% endif %}{% endfor %}]
@@ -55,7 +76,8 @@ resource "aws_alb_target_group_attachment" "{{ instance }}" {
 }
 {% endfor %}
 
-{# resource "aws_alb_listener_rule" "listener_rule" {
+{# # https://www.terraform.io/docs/providers/aws/r/lb_listener_rule.html
+resource "aws_alb_listener_rule" "listener_rule" {
   depends_on   = ["aws_alb_target_group.alb_target_group"]
   listener_arn = "${aws_alb_listener.alb_listener.arn}"
   priority     = "${var.priority}"

@@ -21,6 +21,19 @@ alb_idle_timeout: 60
 alb_access_logs_bucket: cloud44-alb-logs
 alb_access_logs_prefix: ELB-logs
 
+alb_security_group_name: "{{ survey_alb_name | default('cloud44-terraform-alb') }}-secgrp"
+alb_security_group_description: "Allow HTTP inbound traffic"
+alb_security_group_ingress_from_port: 80
+alb_security_group_ingress_to_port: 80
+alb_security_group_ingress_protocol: tcp
+alb_security_group_ingress_cidr_blocks:
+  - 207.61.145.4/32
+alb_security_group_egress_from_port: 0
+alb_security_group_egress_to_port: 0
+alb_security_group_egress_protocol: -1
+alb_security_group_egress_cidr_blocks:
+  - 0.0.0.0/0
+
 alb_target_group_name: "{{ survey_alb_name | default('cloud44-terraform-alb') }}-tg"
 alb_target_group_port: 80
 alb_target_group_protocol: HTTP
