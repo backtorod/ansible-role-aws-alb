@@ -3,7 +3,7 @@
 - name: template terraform backend definition
   template:
     src: "{{ terraform_context }}/{{ item }}.tf.j2"
-    dest: "{{ terraform_context }}/{{ items }}.tf"
+    dest: "{{ terraform_context }}/{{ item }}.tf"
   with_items: "{{ templates.backends }}"
 
 # - name: template terraform
