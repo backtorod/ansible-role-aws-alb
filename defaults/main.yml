@@ -21,7 +21,7 @@ alb_idle_timeout: 60
 alb_access_logs_bucket: cloud44-alb-logs
 alb_access_logs_prefix: ELB-logs
 
-alb_target_group_name: "{{ survey_alb_name | default('cloud44-terraform-alb') }}-target-group"
+alb_target_group_name: "{{ survey_alb_name | default('cloud44-terraform-alb') }}-tg"
 alb_target_group_port: 80
 alb_target_group_protocol: HTTP
 alb_target_group_enable_stickiness: !!str false
