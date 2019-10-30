@@ -2,7 +2,7 @@ resource "aws_alb" "alb" {
   name            = "{{ alb_name }}"
   subnets         = [{% for subnet in alb_subnets %}"{{ subnet }}"{% if not loop.last %}, {% endif %}{% endfor %}]
   security_groups = [{% for security_group in alb_security_groups %}"{{ security_group }}"{% if not loop.last %}, {% endif %}{% endfor %}]
-  internal        = {{ alb_internal | bool }}
+  internal        = {{ alb_internal | bool | lowercase }}
   idle_timeout    = {{ alb_idle_timeout | int }}
   tags {
     Name = "{{ alb_name }}"
