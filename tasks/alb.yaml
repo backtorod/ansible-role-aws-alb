@@ -17,12 +17,15 @@
 
 - block:
 
-    # - name: validate current ec2 instances (if any)
-    #   shell: |
-    #     terraform output -json > {{ terraform_output_file }}
-    #   args:
-    #     chdir: "{{ terraform_context }}"
-    #   register: result_terraform_output
+    - name: validate current ec2 instances (if any)
+      shell: |
+        terraform output -json > {{ terraform_output_file }}
+      args:
+        chdir: "{{ terraform_context }}"
+      register: result_terraform_output
+
+    - set_fact:
+        terraform_output: "{{ result_terraform_output.stdout | from_json }}"
 
     - name: fetch current ec2 instances (if any)
       shell: |
@@ -33,9 +36,6 @@
       register: current_instances
 
     - debug: var=current_instances
-
-    # - set_fact:
-    #     terraform_output: "{{ result_terraform_output.stdout | from_json }}"
 
     - name:
       shell:
