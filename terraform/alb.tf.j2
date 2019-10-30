@@ -6,7 +6,7 @@ resource "aws_alb" "alb" {
   idle_timeout    = "{{ alb_idle_timeout }}"
   tags {
     {% for tag in alb_tags %}
-      {{ tag.name }} = "{{ tag.value }}"
+      {{ tag.name }}          = "{{ tag.value }}"
     {% endfor %}
   }
   access_logs {
