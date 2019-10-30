@@ -75,7 +75,7 @@
         dest: "{{ terraform_context }}/{{ item }}.tf"
       with_items: "{{ templates.instances }}"
 
-  when: current_instances_metadata != ""
+  when: current_instances_ids == ""
 
 - name: check hsl format
   shell: |
