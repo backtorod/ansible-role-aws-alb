@@ -65,13 +65,17 @@
       register: terraform_import
       when: item not in current_instances_ids
 
+  when: should_preserve_instances|default(false)|bool
+
+- block:
+
     - name: template terraform resources definition
       template:
         src: "{{ terraform_context }}/{{ item }}.tf.j2"
         dest: "{{ terraform_context }}/{{ item }}.tf"
       with_items: "{{ templates.instances }}"
 
-  when: should_preserve_instances|default(false)|bool
+  when: current_instances_metadata != ""
 
 - name: check hsl format
   shell: |
