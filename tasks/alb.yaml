@@ -38,7 +38,7 @@
       register: current_instances_result
 
     - set_fact:
-        current_instances:  "{{ current_instances_result.output }}"
+        current_instances:  "{{ current_instances_result.stdout }}"
 
     - debug: var=current_instances
 
