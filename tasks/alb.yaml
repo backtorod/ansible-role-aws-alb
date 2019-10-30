@@ -21,12 +21,6 @@
   args:
     chdir: "{{ terraform_context }}"
 
-- name: template terraform resources definition
-  template:
-    src: "{{ terraform_context }}/{{ item }}.tf.j2"
-    dest: "{{ terraform_context }}/{{ item }}.tf"
-  with_items: "{{ templates.resources }}"
-
 - block:
 
     - name: fetch current ec2 instances (if any)
@@ -41,6 +35,16 @@
         current_instances:  "{{ current_instances_result.stdout_lines }}"
 
     - debug: var=current_instances
+
+  when: should_preserve_instances|default(false)|bool
+
+- name: template terraform resources definition
+  template:
+    src: "{{ terraform_context }}/{{ item }}.tf.j2"
+    dest: "{{ terraform_context }}/{{ item }}.tf"
+  with_items: "{{ templates.resources }}"
+
+- block:
 
     - name:
       shell:
