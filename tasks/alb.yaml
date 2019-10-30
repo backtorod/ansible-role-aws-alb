@@ -22,6 +22,8 @@
         terraform import aws_instance.{{ item }} {{ item }} \
           {{ terraform_extra_args }}
       with_items: "{{ alb_target_group_attachment_instances }}"
+      args:
+        chdir: "{{ terraform_context }}"
       register: terraform_import
 
     - debug: var=terraform_import
