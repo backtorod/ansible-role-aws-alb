@@ -23,6 +23,31 @@ resource "aws_security_group" "alb_security_group" {
 
 }
 
+resource "aws_security_group" "target_security_group" {
+  name        = "{{ target_security_group_name }}"
+  description = "{{ target_security_group_description }}"
+  vpc_id      = "{{ vpc_id }}"
+
+  ingress {
+    from_port       = {{ target_security_group_ingress_from_port }}
+    to_port         = {{ target_security_group_ingress_to_port }}
+    protocol        = "{{ target_security_group_ingress_protocol }}"
+    security_groups = ["${aws_security_group.alb_security_group.id}"]
+  }
+
+  egress {
+    from_port   = {{ alb_security_group_egress_from_port }}
+    to_port     = {{ alb_security_group_egress_to_port }}
+    protocol    = "{{ alb_security_group_egress_protocol }}"
+    cidr_blocks = [{% for cidr in target_security_group_egress_cidr_blocks %}"{{ cidr }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+  }
+
+  tags = {
+    Name = "{{ alb_security_group_name }}"
+  }
+
+}
+
 resource "aws_alb" "alb" {
   name            = "{{ alb_name }}"
   subnets         = [{% for subnet in alb_subnets %}"{{ subnet }}"{% if not loop.last %}, {% endif %}{% endfor %}]
