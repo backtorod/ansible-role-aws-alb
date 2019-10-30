@@ -32,10 +32,13 @@
     - name: fetch current ec2 instances (if any)
       shell: |
         cat {{ terraform_output_file }} | \
-          jq -r '.resources[] | select(.type == "aws_instance") | .name'
+          jq -r '.resources[] | select(.type == "aws_instance") | .name + "," + .instances[0].attributes.primary_network_interface_id'
       args:
         chdir: "{{ terraform_context }}"
-      register: current_instances
+      register: current_instances_result
+
+    - set_fact:
+        current_instances:  "{{ current_instances_result.output }}"
 
     - debug: var=current_instances
 
