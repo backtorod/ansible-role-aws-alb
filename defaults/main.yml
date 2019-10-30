@@ -16,7 +16,7 @@ alb_subnets:
   - subnet-a1eee2c5
 alb_security_groups:
   - sg-006c0c38a9b7c0ddd
-alb_internal: true
+alb_internal: !!true
 alb_idle_timeout: 60
 alb_access_logs_bucket: cloud44-alb-logs
 alb_access_logs_prefix: ELB-logs
