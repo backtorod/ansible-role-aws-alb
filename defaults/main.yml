@@ -19,8 +19,8 @@ alb_security_groups:
 alb_internal: true
 alb_idle_timeout: 60
 alb_tags: |
-Name        = "{{ alb_name }}"
-Description = "This is a description"
+    Name        = "{{ alb_name }}"
+    Description = "This is a description"
 alb_access_logs_bucket: cloud44-alb-logs
 alb_access_logs_prefix: ELB-logs
 
