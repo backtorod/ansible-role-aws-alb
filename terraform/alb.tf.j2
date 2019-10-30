@@ -1,4 +1,4 @@
-#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+#jinja2: lstrip_blocks: "False", trim_blocks: "True"
 
 resource "aws_alb" "alb" {
   name            = "{{ alb_name }}"
