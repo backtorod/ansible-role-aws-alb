@@ -71,15 +71,12 @@ alb_target_group_attachment_port: 80
 provider_aws_version: 2.33.0
 
 templates:
-  backends:
-    - backends
-  instances:
-    - instances
-  resources:
-    - alb
-    - output
-    - provider
-    - terraform
+  - alb
+  - backends
+  - instances
+  - output
+  - provider
+  - terraform
 
 terraform_version: 0.12
 terraform_extra_args: -no-color
