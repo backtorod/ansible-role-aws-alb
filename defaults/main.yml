@@ -39,6 +39,8 @@ alb_listener_protocol: HTTP
 
 alb_target_group_attachment_instances:
   - i-0e499cc4b1fb3449c
+  - i-09df5c385d867460e
+
 alb_target_group_attachment_port: 80
 
 #
