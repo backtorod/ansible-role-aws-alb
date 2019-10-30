@@ -81,3 +81,4 @@ terraform_version: 0.12
 terraform_extra_args: -no-color
 terraform_state_bucket: cloud44-terraform-states
 terraform_state_key: develop/tests
+terraform_output_file: terraform_output.json

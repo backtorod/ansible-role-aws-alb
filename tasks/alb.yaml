@@ -17,10 +17,29 @@
 
 - block:
 
+    # - name: validate current ec2 instances (if any)
+    #   shell: |
+    #     terraform output -json > {{ terraform_output_file }}
+    #   args:
+    #     chdir: "{{ terraform_context }}"
+    #   register: result_terraform_output
+
+    - name: fetch current ec2 instances (if any)
+      shell: |
+        cat {{ terraform_output_file }} | \
+          jq -r '.values | .root_module | .resources[] | select(.type == "aws_instance") | .name'
+      args:
+        chdir: "{{ terraform_context }}"
+      register: current_instances
+
+    - debug: var=current_instances
+
+    # - set_fact:
+    #     terraform_output: "{{ result_terraform_output.stdout | from_json }}"
+
     - name:
       shell:
         terraform import aws_instance.{{ item }} {{ item }} \
-          -allow-missing-config \
           {{ terraform_extra_args }}
       with_items: "{{ alb_target_group_attachment_instances }}"
       args:
