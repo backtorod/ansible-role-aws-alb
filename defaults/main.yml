@@ -26,7 +26,7 @@ alb_security_group_ingress:
     from: 80
     to: 80
     protocol: tcp
-    type: security_groups
+    type: cidr_blocks
     sources:
       - 0.0.0.0/0
 alb_security_group_egress_from_port: 0
