@@ -74,7 +74,7 @@ resource "aws_security_group" "target_security_group" {
 
 resource "aws_alb" "alb" {
   name            = "{{ alb_name }}"
-  subnets         = [{% for subnet in survey_aws_subnets %}"{{ subnet }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+  subnets         = [{% for subnet in aws_subnets %}"{{ subnet }}"{% if not loop.last %}, {% endif %}{% endfor %}]
   security_groups = ["${aws_security_group.alb_security_group.id}"]
   internal        = {{ alb_internal }}
   idle_timeout    = {{ alb_idle_timeout }}
