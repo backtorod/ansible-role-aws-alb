@@ -50,6 +50,13 @@ target_security_group_ingress:
     type: cidr_blocks
     sources:
       - 0.0.0.0/0
+  - name: ssh
+    from: 8080
+    to: 8080
+    protocol: tcp
+    type: cidr_blocks
+    sources:
+      - 1.2.3.4/32
 target_security_group_ingress_from_port: 80
 target_security_group_ingress_to_port: 80
 target_security_group_ingress_protocol: tcp
