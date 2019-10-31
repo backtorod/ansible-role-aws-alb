@@ -4,9 +4,14 @@
 #
 # common
 #
-aws_region: "{{ survey_aws_region | default('us-east-1') }}"
-vpc_id: "{{ survey_vpc_id | default('vpc-324f234a') }}"
-preserve_instances:
+aws_region: us-east-1
+aws_vpc_id: vpc-324f234a
+
+aws_subnets:
+  - subnet-3f449e10
+  - subnet-a1eee2c5
+
+aws_preserve_instances:
   - i-0d3c7916cdac83ddd
   - i-095ea6ef300a88ccd
 
@@ -14,9 +19,7 @@ preserve_instances:
 # resources
 #
 alb_name: "{{ survey_alb_name | default('cloud44-terraform-alb') }}"
-alb_subnets:
-  - subnet-3f449e10
-  - subnet-a1eee2c5
+
 alb_internal: !!str true
 alb_idle_timeout: 60
 alb_access_logs_bucket: cloud44-alb-logs

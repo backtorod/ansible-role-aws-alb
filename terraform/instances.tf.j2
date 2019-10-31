@@ -1,4 +1,4 @@
-{% for instance in preserve_instances %}
+{% for instance in aws_preserve_instances %}
 data "aws_instance" "{{ instance }}" {
   instance_id = "{{ instance }}"
 }
