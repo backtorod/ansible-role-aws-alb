@@ -38,25 +38,24 @@ alb_security_group_egress_cidr_blocks:
 target_security_group_name: "{{ survey_alb_name | default('cloud44-terraform-alb') }}-tg-secgrp"
 target_security_group_description: "Allow traffic from ALB to target group instances"
 target_security_group_ingress:
-  - name: http
-    from: 80
-    to: 80
-    protocol: tcp
-    type: security_groups
-  - name: ssh
-    from: 22
-    to: 22
-    protocol: tcp
-    type: cidr_blocks
-    sources:
-      - 0.0.0.0/0
-  - name: ssh
-    from: 8080
-    to: 8080
-    protocol: tcp
-    type: cidr_blocks
-    sources:
-      - 1.2.3.4/32
+  security_groups:
+    - name: http
+      from: 80
+      to: 80
+      protocol: tcp
+  cidr_blocks:
+    - name: ssh
+      from: 22
+      to: 22
+      protocol: tcp
+      sources:
+        - 0.0.0.0/0
+    - name: ssh
+      from: 8080
+      to: 8080
+      protocol: tcp
+      sources:
+        - 1.2.3.4/32
 target_security_group_ingress_from_port: 80
 target_security_group_ingress_to_port: 80
 target_security_group_ingress_protocol: tcp

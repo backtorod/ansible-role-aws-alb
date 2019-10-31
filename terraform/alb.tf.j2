@@ -42,23 +42,21 @@ resource "aws_security_group" "target_security_group" {
   description = "{{ target_security_group_description }}"
   vpc_id      = "{{ vpc_id }}"
 
-  {% for ingress in target_security_group_ingress %}
-  {% if ingress.type == "security_groups" %}
+  {% for ingress in target_security_group_ingress.security_groups %}
   ingress {
     from_port       = {{ ingress.from }}
     to_port         = {{ ingress.to }}
     protocol        = "{{ ingress.protocol }}"
     security_groups = ["${aws_security_group.alb_security_group.id}"]
   }
-  {% endif %}
-  {% if ingress.type == "cidr_blocks" %}
+  {% endfor %}
+  {% for ingress in target_security_group_ingress.cidr_blocks %}
   ingress {
     from_port   = {{ ingress.from }}
     to_port     = {{ ingress.to }}
     protocol    = "{{ ingress.protocol }}"
     cidr_blocks = [{% for source in ingress.sources %}"{{ source }}"{% if not loop.last %}, {% endif %}{% endfor %}]
   }
-  {% endif %}
   {% endfor %}
 
   egress {
