@@ -21,23 +21,14 @@ alb_access_logs_prefix: ELB-logs
 
 alb_security_group_name: "{{ survey_alb_name | default('cloud44-terraform-alb') }}-secgrp"
 alb_security_group_description: "Allow HTTP inbound traffic"
-
 alb_security_group_ingress:
   - name: http
     from: 80
     to: 80
     protocol: tcp
     type: security_groups
-    source:
+    sources:
       - 0.0.0.0/0
-  - name: ssh
-    from: 22
-    to: 22
-    protocol: tcp
-    type: cidr_blocks
-    source:
-      - 0.0.0.0/0
-
 alb_security_group_egress_from_port: 0
 alb_security_group_egress_to_port: 0
 alb_security_group_egress_protocol: -1
@@ -52,8 +43,6 @@ target_security_group_ingress:
     to: 80
     protocol: tcp
     type: security_groups
-    sources:
-      - 0.0.0.0/0
   - name: ssh
     from: 22
     to: 22
@@ -61,8 +50,6 @@ target_security_group_ingress:
     type: cidr_blocks
     sources:
       - 0.0.0.0/0
-
-
 target_security_group_ingress_from_port: 80
 target_security_group_ingress_to_port: 80
 target_security_group_ingress_protocol: tcp

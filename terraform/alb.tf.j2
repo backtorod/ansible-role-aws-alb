@@ -1,36 +1,11 @@
 #jinja2: lstrip_blocks: "True", trim_blocks: "False"
 
-{# resource "aws_security_group" "alb_security_group" {
+resource "aws_security_group" "alb_security_group" {
   name        = "{{ alb_security_group_name }}"
   description = "{{ alb_security_group_description }}"
   vpc_id      = "{{ vpc_id }}"
 
-  ingress {
-    from_port   = {{ alb_security_group_ingress_from_port }}
-    to_port     = {{ alb_security_group_ingress_to_port }}
-    protocol    = "{{ alb_security_group_ingress_protocol }}"
-    cidr_blocks = [{% for cidr in alb_security_group_ingress_cidr_blocks %}"{{ cidr }}"{% if not loop.last %}, {% endif %}{% endfor %}]
-  }
-
-  egress {
-    from_port   = {{ alb_security_group_egress_from_port }}
-    to_port     = {{ alb_security_group_egress_to_port }}
-    protocol    = "{{ alb_security_group_egress_protocol }}"
-    cidr_blocks = [{% for cidr in alb_security_group_egress_cidr_blocks %}"{{ cidr }}"{% if not loop.last %}, {% endif %}{% endfor %}]
-  }
-
-  tags = {
-    Name = "{{ alb_security_group_name }}"
-  }
-
-} #}
-
-resource "aws_security_group" "target_security_group" {
-  name        = "{{ target_security_group_name }}"
-  description = "{{ target_security_group_description }}"
-  vpc_id      = "{{ vpc_id }}"
-
-  {% for ingress in target_security_group_ingress %}
+  {% for ingress in alb_security_group_ingress %}
   {% if ingress.type == "security_groups" %}
   ingress {
     from_port       = {{ ingress.from }}
@@ -49,6 +24,42 @@ resource "aws_security_group" "target_security_group" {
   {% endif %}
   {% endfor %}
 
+  egress {
+    from_port   = {{ alb_security_group_egress_from_port }}
+    to_port     = {{ alb_security_group_egress_to_port }}
+    protocol    = "{{ alb_security_group_egress_protocol }}"
+    cidr_blocks = [{% for cidr in alb_security_group_egress_cidr_blocks %}"{{ cidr }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+  }
+
+  tags = {
+    Name = "{{ alb_security_group_name }}"
+  }
+
+}
+
+resource "aws_security_group" "target_security_group" {
+  name        = "{{ target_security_group_name }}"
+  description = "{{ target_security_group_description }}"
+  vpc_id      = "{{ vpc_id }}"
+
+  {% for ingress in target_security_group_ingress %}
+  {% if ingress.type == "security_groups" %}
+  ingress {
+    from_port       = {{ ingress.from }}
+    to_port         = {{ ingress.to }}
+    protocol        = "{{ ingress.protocol }}"
+    security_groups = ["${aws_security_group.alb_security_group.id}"]
+  }
+  {% endif %}
+  {% if ingress.type == "cidr_blocks" %}
+  ingress {
+    from_port   = {{ ingress.from }}
+    to_port     = {{ ingress.to }}
+    protocol    = "{{ ingress.protocol }}"
+    cidr_blocks = [{% for source in ingress.sources %}"{{ source }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+  }
+  {% endif %}
+  {% endfor %}
 
   egress {
     from_port   = {{ alb_security_group_egress_from_port }}
