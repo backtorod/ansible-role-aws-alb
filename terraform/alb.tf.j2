@@ -126,7 +126,7 @@ resource "aws_alb_listener" "alb_listener" {
   }
 }
 
-{% for instance in alb_target_group_attachment_instances %}
+{% for instance in preserve_instances %}
 resource "aws_alb_target_group_attachment" "{{ instance }}" {
   target_group_arn = "${aws_alb_target_group.alb_target_group.arn}"
   target_id        = "{{ instance }}"

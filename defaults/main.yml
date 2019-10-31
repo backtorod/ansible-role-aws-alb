@@ -6,6 +6,9 @@
 #
 aws_region: "{{ survey_aws_region | default('us-east-1') }}"
 vpc_id: "{{ survey_vpc_id | default('vpc-324f234a') }}"
+preserve_instances:
+  - i-0d3c7916cdac83ddd
+  - i-095ea6ef300a88ccd
 
 #
 # resources
@@ -80,11 +83,6 @@ alb_target_group_health_check_port: 80
 
 alb_listener_port: 80
 alb_listener_protocol: HTTP
-
-alb_target_group_attachment_instances:
-  - i-0d3c7916cdac83ddd
-  - i-095ea6ef300a88ccd
-
 alb_target_group_attachment_port: 80
 
 #

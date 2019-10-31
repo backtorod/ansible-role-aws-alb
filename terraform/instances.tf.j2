@@ -1,5 +1,5 @@
 {% if should_preserve_instances|default(false)|bool %}
-{% for instance in alb_target_group_attachment_instances %}
+{% for instance in preserve_instances %}
 data "aws_instance" "{{ instance }}" {
   instance_id = "{{ instance }}"
 }
